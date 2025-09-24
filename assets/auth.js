@@ -33,8 +33,11 @@ async function login(email, password){
 async function ensureAuth(){
   const sess = getSession();
   const path = location.pathname;
-  const atLogin = path.endsWith('index.html') || path.endsWith('/') || path.endsWith('');
-  if (!sess && !atLogin){ location.href = 'index.html'; }
+  const file = path.split('/').pop() || 'index.html';
+  const atLogin = (file === 'index.html'); // solo consideramos login cuando es index.html
+  if (!sess && !atLogin){ location.replace('index.html'); }
+  if (sess && atLogin){ location.replace('app.html'); }
+}
   if (sess && atLogin){ location.href = 'app.html'; }
 }
 
