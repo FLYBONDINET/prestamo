@@ -1,0 +1,4 @@
+
+/* Custom tweaks */
+.card { border-radius: 1rem; box-shadow: 0 8px 24px rgba(2,6,23,.08); }
+#signaturePad { touch-action: none; }

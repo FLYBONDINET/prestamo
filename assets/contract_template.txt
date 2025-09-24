@@ -1,0 +1,17 @@
+CONTRATO DE PRÉSTAMO DE DINERO
+
+Entre {{prestamista_nombre}}, DNI {{prestamista_dni}}, con domicilio en {{prestamista_dom}} (en adelante, "El Prestamista")
+y {{deudor_nombre}}, DNI {{deudor_dni}}, con domicilio en {{deudor_dom}} (en adelante, "El Deudor"), convienen:
+
+1) Monto: El Prestamista entrega al Deudor la suma de {{monto}} ({{moneda}}).
+2) Interés y plan de pagos: Interés mensual {{interes}}% bajo método {{metodo}}, en {{cuotas}} cuotas mensuales.
+   Fecha de inicio: {{fecha_inicio}}. Día de vencimiento: {{dia_vto}}.
+3) Punitorios: En caso de mora se aplicará un interés punitorio del {{punitorio}}% mensual o el máximo permitido por ley.
+   Gracia: {{gracia}} día(s).
+4) Pagos: Cada cuota deberá abonarse hasta su vencimiento. La falta de pago faculta a declarar el vencimiento anticipado.
+5) Domicilios y jurisdicción: Las partes constituyen domicilio en los indicados y se someten a la jurisdicción local.
+6) Notas: {{notas}}.
+
+Firmas:
+Deudor: _______________________   Aclaración: ________________   DNI: ___________
+Prestamista: __________________   Aclaración: ________________   DNI: ___________

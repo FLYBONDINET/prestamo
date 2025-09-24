@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prestamista Pro — Ingreso</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="theme-color" content="#0f172a">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+  <div class="max-w-md mx-auto pt-16 px-4">
+    <div class="card bg-white p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-content-center font-black">$</div>
+        <div>
+          <h1 class="text-2xl font-bold">Prestamista Pro</h1>
+          <p class="text-xs text-slate-500">PWA — funciona offline</p>
+        </div>
+      </div>
+
+      <div class="grid gap-2 mb-4">
+        <label class="text-sm">Email</label>
+        <input id="email" type="email" class="px-3 py-2 rounded-xl border" placeholder="usuario@dominio.com">
+        <label class="text-sm">Contraseña</label>
+        <input id="password" type="password" class="px-3 py-2 rounded-xl border" placeholder="••••••••">
+      </div>
+
+      <div class="flex gap-2">
+        <button id="btnLogin" class="px-3 py-2 rounded-xl bg-blue-600 text-white">Ingresar</button>
+        <button id="btnRegister" class="px-3 py-2 rounded-xl border">Crear cuenta local</button>
+      </div>
+
+      <p class="text-xs text-slate-500 mt-4">Esta demo usa almacenamiento local (localStorage). Para multiusuario real y backups, conectar una API/DB.</p>
+    </div>
+
+    <div class="text-center mt-6 text-xs text-slate-500">
+      <button id="btnInstall" class="px-3 py-2 rounded-xl border hidden">Instalar app</button>
+    </div>
+  </div>
+
+  <script src="/assets/auth.js"></script>
+  <script>
+    // Register SW for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(console.error));
+    }
+
+    // Install prompt
+    let deferredPrompt;
+    const btnInstall = document.getElementById('btnInstall');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      btnInstall.classList.remove('hidden');
+    });
+    btnInstall.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      btnInstall.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
