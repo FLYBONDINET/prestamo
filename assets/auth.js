@@ -1,4 +1,4 @@
-// Local auth demo (no backend)
+// Local auth demo
 const LS_USERS = 'prestamista.users';
 const LS_SESSION = 'prestamista.session';
 function getUsers(){ try { return JSON.parse(localStorage.getItem(LS_USERS))||[] } catch { return [] } }
@@ -7,7 +7,6 @@ function setSession(email){ localStorage.setItem(LS_SESSION, JSON.stringify({ema
 function getSession(){ try { return JSON.parse(localStorage.getItem(LS_SESSION)) } catch { return null } }
 function clearSession(){ localStorage.removeItem(LS_SESSION); }
 
-// Simple hash (demo only, not secure)
 async function hash(str){
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -16,6 +15,7 @@ async function hash(str){
 
 async function register(email, password){
   const users = getUsers();
+  if (!email || !password) throw new Error('Completá email y contraseña.');
   if (users.find(u=>u.email===email)) throw new Error('Ya existe un usuario con ese email.');
   users.push({ email, pass: await hash(password), settings: { prestamista_nombre: '', prestamista_dni: '', prestamista_dom: '' } });
   setUsers(users);
@@ -32,18 +32,19 @@ async function login(email, password){
 
 async function ensureAuth(){
   const sess = getSession();
-  const atLogin = location.pathname.endsWith('/index.html') || location.pathname === '/';
-  if (!sess && !atLogin){ location.href = '/'; }
-  if (sess && atLogin){ location.href = '/app.html'; }
+  const path = location.pathname;
+  const atLogin = path.endsWith('index.html') || path.endsWith('/') || path.endsWith('');
+  if (!sess && !atLogin){ location.href = 'index.html'; }
+  if (sess && atLogin){ location.href = 'app.html'; }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
   await ensureAuth();
-  if (location.pathname.endsWith('/index.html') || location.pathname === '/'){
+  if (location.pathname.endsWith('index.html') || location.pathname.endsWith('/') || location.pathname.endsWith('')){
     const email = document.getElementById('email');
     const pass = document.getElementById('password');
     document.getElementById('btnLogin').addEventListener('click', async ()=>{
-      try { await login(email.value.trim(), pass.value); location.href='/app.html'; }
+      try { await login(email.value.trim(), pass.value); location.href='app.html'; }
       catch(e){ alert(e.message); }
     });
     document.getElementById('btnRegister').addEventListener('click', async ()=>{
@@ -53,6 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     const sess = getSession();
     document.getElementById('userEmail').textContent = sess?.email || '';
-    document.getElementById('btnLogout').addEventListener('click', ()=>{ clearSession(); location.href='/'; });
+    document.getElementById('btnLogout').addEventListener('click', ()=>{ clearSession(); location.href='index.html'; });
   }
 });

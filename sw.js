@@ -1,9 +1,9 @@
 
-const CACHE_NAME = 'prestamista-pro-v1';
+const CACHE_NAME = 'prestamista-pro-v2';
 const ASSETS = [
-  '/', '/index.html', '/app.html',
-  '/assets/app.js','/assets/auth.js','/assets/style.css',
-  '/manifest.json','/icons/icon-192.png','/icons/icon-512.png'
+  './', 'index.html', 'app.html',
+  'assets/app.js','assets/auth.js','assets/style.css',
+  'manifest.json','icons/icon-192.png','icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -21,11 +21,10 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(resp => {
-        const copy = resp.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        return resp;
-      }).catch(()=> cached);
-    })
-  );
+    return cached || fetch(event.request).then(resp => {
+      const copy = resp.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+      return resp;
+    }).catch(()=> cached);
+  }));
 });

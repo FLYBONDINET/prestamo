@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prestamista Pro — Ingreso</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#0f172a">
 </head>
@@ -32,7 +32,7 @@
         <button id="btnRegister" class="px-3 py-2 rounded-xl border">Crear cuenta local</button>
       </div>
 
-      <p class="text-xs text-slate-500 mt-4">Esta demo usa almacenamiento local (localStorage). Para multiusuario real y backups, conectar una API/DB.</p>
+      <p class="text-xs text-slate-500 mt-4">Demo sin backend (localStorage). Para multiusuario real: conectar API/DB.</p>
     </div>
 
     <div class="text-center mt-6 text-xs text-slate-500">
@@ -40,28 +40,14 @@
     </div>
   </div>
 
-  <script src="/assets/auth.js"></script>
+  <script src="assets/auth.js"></script>
   <script>
-    // Register SW for PWA
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(console.error));
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(console.error));
     }
-
-    // Install prompt
-    let deferredPrompt;
-    const btnInstall = document.getElementById('btnInstall');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      btnInstall.classList.remove('hidden');
-    });
-    btnInstall.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      btnInstall.classList.add('hidden');
-    });
+    let deferredPrompt; const btnInstall = document.getElementById('btnInstall');
+    window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; btnInstall.classList.remove('hidden'); });
+    btnInstall.addEventListener('click', async ()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; btnInstall.classList.add('hidden'); });
   </script>
 </body>
 </html>
